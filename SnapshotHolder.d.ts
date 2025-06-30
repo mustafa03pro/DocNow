@@ -1,11 +1,6 @@
 /**
- * Firebase Realtime Database
- *
- * @packageDocumentation
- */
-/**
  * @license
- * Copyright 2020 Google LLC
+ * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Database } from './api/Database';
-export * from './api';
-declare module '@firebase/component' {
-    interface NameServiceMapping {
-        'database': Database;
-    }
+import { Node } from './snap/Node';
+import { Path } from './util/Path';
+/**
+ * Mutable object which basically just stores a reference to the "latest" immutable snapshot.
+ */
+export declare class SnapshotHolder {
+    private rootNode_;
+    getNode(path: Path): Node;
+    updateSnapshot(path: Path, newSnapshotNode: Node): void;
 }

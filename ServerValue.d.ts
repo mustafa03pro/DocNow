@@ -1,9 +1,4 @@
 /**
- * Firebase Realtime Database
- *
- * @packageDocumentation
- */
-/**
  * @license
  * Copyright 2020 Google LLC
  *
@@ -19,10 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Database } from './api/Database';
-export * from './api';
-declare module '@firebase/component' {
-    interface NameServiceMapping {
-        'database': Database;
-    }
-}
+/**
+ * Returns a placeholder value for auto-populating the current timestamp (time
+ * since the Unix epoch, in milliseconds) as determined by the Firebase
+ * servers.
+ */
+export declare function serverTimestamp(): object;
+/**
+ * Returns a placeholder value that can be used to atomically increment the
+ * current database value by the provided delta.
+ *
+ * @param delta - the amount to modify the current value atomically.
+ * @returns A placeholder value for modifying data atomically server-side.
+ */
+export declare function increment(delta: number): object;

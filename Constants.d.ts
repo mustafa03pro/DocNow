@@ -1,11 +1,6 @@
 /**
- * Firebase Realtime Database
- *
- * @packageDocumentation
- */
-/**
  * @license
- * Copyright 2020 Google LLC
+ * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Database } from './api/Database';
-export * from './api';
-declare module '@firebase/component' {
-    interface NameServiceMapping {
-        'database': Database;
-    }
-}
+export declare const PROTOCOL_VERSION = "5";
+export declare const VERSION_PARAM = "v";
+export declare const TRANSPORT_SESSION_PARAM = "s";
+export declare const REFERER_PARAM = "r";
+export declare const FORGE_REF = "f";
+export declare const FORGE_DOMAIN_RE: RegExp;
+export declare const LAST_SESSION_PARAM = "ls";
+export declare const APPLICATION_ID_PARAM = "p";
+export declare const APP_CHECK_TOKEN_PARAM = "ac";
+export declare const WEBSOCKET = "websocket";
+export declare const LONG_POLLING = "long_polling";
