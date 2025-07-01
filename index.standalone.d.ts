@@ -14,4 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './api.standalone';
+import { FirebaseApp } from '@firebase/app-types';
+import { enableLogging } from '@firebase/database';
+import { Database } from './api/Database';
+import * as INTERNAL from './api/internal';
+import { DataSnapshot, Query, Reference } from './api/Reference';
+declare const ServerValue: {
+    TIMESTAMP: object;
+    increment: (delta: number) => object;
+};
+/**
+ * A one off register function which returns a database based on the app and
+ * passed database URL. (Used by the Admin SDK)
+ *
+ * @param app - A valid FirebaseApp-like object
+ * @param url - A valid Firebase databaseURL
+ * @param version - custom version e.g. firebase-admin version
+ * @param nodeAdmin - true if the SDK is being initialized from Firebase Admin.
+ */
+export declare function initStandalone(app: FirebaseApp, url: string, version: string, nodeAdmin?: boolean): {
+    instance: import("@firebase/database-types").Database;
+    namespace: {
+        Reference: typeof Reference;
+        Query: typeof Query;
+        Database: typeof Database;
+        DataSnapshot: typeof DataSnapshot;
+        enableLogging: typeof enableLogging;
+        INTERNAL: typeof INTERNAL;
+        ServerValue: {
+            TIMESTAMP: object;
+            increment: (delta: number) => object;
+        };
+    };
+};
+export { Database, Query, Reference, enableLogging, ServerValue };
+export { OnDisconnect } from '@firebase/database';
+export { DataSnapshot } from './api/Reference';

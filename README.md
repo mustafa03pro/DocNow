@@ -1,12 +1,3 @@
-# @firebase/component
+# @firebase/database-types
 
-_NOTE: This is specifically tailored for Firebase JS SDK usage, if you are not a
-member of the Firebase team, please avoid using this package_
-
-## Usage
-
-**ES Modules**
-
-```javascript
-import { Component } from '@firebase/component';
-```
+**This package is not intended for direct usage, and should only be used via the officially supported [firebase](https://www.npmjs.com/package/firebase) package.**
