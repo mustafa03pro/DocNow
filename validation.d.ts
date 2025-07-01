@@ -14,17 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as types from '@firebase/database-types';
-declare module '@firebase/app-compat' {
-    interface FirebaseNamespace {
-        database?: {
-            (app?: FirebaseApp): types.FirebaseDatabase;
-            enableLogging: typeof types.enableLogging;
-            ServerValue: types.ServerValue;
-            Database: typeof types.FirebaseDatabase;
-        };
-    }
-    interface FirebaseApp {
-        database?(): types.FirebaseDatabase;
-    }
-}
+export declare const validateBoolean: (fnName: string, argumentName: string, bool: unknown, optional: boolean) => void;
+export declare const validateEventType: (fnName: string, eventType: string, optional: boolean) => void;
