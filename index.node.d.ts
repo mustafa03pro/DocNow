@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Google LLC
+ * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as types from '@firebase/database-types';
-declare module '@firebase/app-compat' {
-    interface FirebaseNamespace {
-        database?: {
-            (app?: FirebaseApp): types.FirebaseDatabase;
-            enableLogging: typeof types.enableLogging;
-            ServerValue: types.ServerValue;
-            Database: typeof types.FirebaseDatabase;
-        };
-    }
-    interface FirebaseApp {
-        database?(): types.FirebaseDatabase;
-    }
-}
+export * from './src/assert';
+export * from './src/crypt';
+export * from './src/constants';
+export * from './src/deepCopy';
+export * from './src/defaults';
+export * from './src/deferred';
+export * from './src/emulator';
+export * from './src/environment';
+export * from './src/errors';
+export * from './src/json';
+export * from './src/jwt';
+export * from './src/obj';
+export * from './src/promise';
+export * from './src/query';
+export * from './src/sha1';
+export * from './src/subscribe';
+export * from './src/validation';
+export * from './src/utf8';
+export * from './src/exponential_backoff';
+export * from './src/formatters';
+export * from './src/compat';
+export * from './src/global';

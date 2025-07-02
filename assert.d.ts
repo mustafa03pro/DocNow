@@ -15,19 +15,10 @@
  * limitations under the License.
  */
 /**
- * @fileoverview Firebase constants.  Some of these (@defines) can be overridden at compile-time.
+ * Throws an error if the provided assertion is falsy
  */
-export declare const CONSTANTS: {
-    /**
-     * @define {boolean} Whether this is the client Node.js SDK.
-     */
-    NODE_CLIENT: boolean;
-    /**
-     * @define {boolean} Whether this is the Admin Node.js SDK.
-     */
-    NODE_ADMIN: boolean;
-    /**
-     * Firebase SDK Version
-     */
-    SDK_VERSION: string;
-};
+export declare const assert: (assertion: unknown, message: string) => void;
+/**
+ * Returns an Error object suitable for throwing.
+ */
+export declare const assertionError: (message: string) => Error;

@@ -1,4 +1,8 @@
-import { getDefaultsFromPostinstall } from './postinstall.mjs';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var postinstall = require('./postinstall.js');
 
 /**
  * @license
@@ -552,7 +556,7 @@ const getDefaultsFromCookie = () => {
  */
 const getDefaults = () => {
     try {
-        return (getDefaultsFromPostinstall() ||
+        return (postinstall.getDefaultsFromPostinstall() ||
             getDefaultsFromGlobal() ||
             getDefaultsFromEnvVariable() ||
             getDefaultsFromCookie());
@@ -2105,5 +2109,71 @@ function getModularInstance(service) {
     }
 }
 
-export { CONSTANTS, DecodeBase64StringError, Deferred, ErrorFactory, FirebaseError, MAX_VALUE_MILLIS, RANDOM_FACTOR, Sha1, areCookiesEnabled, assert, assertionError, async, base64, base64Decode, base64Encode, base64urlEncodeWithoutPadding, calculateBackoffMillis, contains, createMockUserToken, createSubscribe, decode, deepCopy, deepEqual, deepExtend, errorPrefix, extractQuerystring, getDefaultAppConfig, getDefaultEmulatorHost, getDefaultEmulatorHostnameAndPort, getDefaults, getExperimentalSetting, getGlobal, getModularInstance, getUA, isAdmin, isBrowser, isBrowserExtension, isCloudflareWorker, isElectron, isEmpty, isIE, isIndexedDBAvailable, isMobileCordova, isNode, isNodeSdk, isReactNative, isSafari, isUWP, isValidFormat, isValidTimestamp, isWebWorker, issuedAtTime, jsonEval, map, ordinal, promiseWithTimeout, querystring, querystringDecode, safeGet, stringLength, stringToByteArray, stringify, validateArgCount, validateCallback, validateContextObject, validateIndexedDBOpenable, validateNamespace };
-//# sourceMappingURL=index.esm2017.js.map
+exports.CONSTANTS = CONSTANTS;
+exports.DecodeBase64StringError = DecodeBase64StringError;
+exports.Deferred = Deferred;
+exports.ErrorFactory = ErrorFactory;
+exports.FirebaseError = FirebaseError;
+exports.MAX_VALUE_MILLIS = MAX_VALUE_MILLIS;
+exports.RANDOM_FACTOR = RANDOM_FACTOR;
+exports.Sha1 = Sha1;
+exports.areCookiesEnabled = areCookiesEnabled;
+exports.assert = assert;
+exports.assertionError = assertionError;
+exports.async = async;
+exports.base64 = base64;
+exports.base64Decode = base64Decode;
+exports.base64Encode = base64Encode;
+exports.base64urlEncodeWithoutPadding = base64urlEncodeWithoutPadding;
+exports.calculateBackoffMillis = calculateBackoffMillis;
+exports.contains = contains;
+exports.createMockUserToken = createMockUserToken;
+exports.createSubscribe = createSubscribe;
+exports.decode = decode;
+exports.deepCopy = deepCopy;
+exports.deepEqual = deepEqual;
+exports.deepExtend = deepExtend;
+exports.errorPrefix = errorPrefix;
+exports.extractQuerystring = extractQuerystring;
+exports.getDefaultAppConfig = getDefaultAppConfig;
+exports.getDefaultEmulatorHost = getDefaultEmulatorHost;
+exports.getDefaultEmulatorHostnameAndPort = getDefaultEmulatorHostnameAndPort;
+exports.getDefaults = getDefaults;
+exports.getExperimentalSetting = getExperimentalSetting;
+exports.getGlobal = getGlobal;
+exports.getModularInstance = getModularInstance;
+exports.getUA = getUA;
+exports.isAdmin = isAdmin;
+exports.isBrowser = isBrowser;
+exports.isBrowserExtension = isBrowserExtension;
+exports.isCloudflareWorker = isCloudflareWorker;
+exports.isElectron = isElectron;
+exports.isEmpty = isEmpty;
+exports.isIE = isIE;
+exports.isIndexedDBAvailable = isIndexedDBAvailable;
+exports.isMobileCordova = isMobileCordova;
+exports.isNode = isNode;
+exports.isNodeSdk = isNodeSdk;
+exports.isReactNative = isReactNative;
+exports.isSafari = isSafari;
+exports.isUWP = isUWP;
+exports.isValidFormat = isValidFormat;
+exports.isValidTimestamp = isValidTimestamp;
+exports.isWebWorker = isWebWorker;
+exports.issuedAtTime = issuedAtTime;
+exports.jsonEval = jsonEval;
+exports.map = map;
+exports.ordinal = ordinal;
+exports.promiseWithTimeout = promiseWithTimeout;
+exports.querystring = querystring;
+exports.querystringDecode = querystringDecode;
+exports.safeGet = safeGet;
+exports.stringLength = stringLength;
+exports.stringToByteArray = stringToByteArray;
+exports.stringify = stringify;
+exports.validateArgCount = validateArgCount;
+exports.validateCallback = validateCallback;
+exports.validateContextObject = validateContextObject;
+exports.validateIndexedDBOpenable = validateIndexedDBOpenable;
+exports.validateNamespace = validateNamespace;
+//# sourceMappingURL=index.cjs.js.map

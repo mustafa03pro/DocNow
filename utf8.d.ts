@@ -15,19 +15,13 @@
  * limitations under the License.
  */
 /**
- * @fileoverview Firebase constants.  Some of these (@defines) can be overridden at compile-time.
+ * @param {string} str
+ * @return {Array}
  */
-export declare const CONSTANTS: {
-    /**
-     * @define {boolean} Whether this is the client Node.js SDK.
-     */
-    NODE_CLIENT: boolean;
-    /**
-     * @define {boolean} Whether this is the Admin Node.js SDK.
-     */
-    NODE_ADMIN: boolean;
-    /**
-     * Firebase SDK Version
-     */
-    SDK_VERSION: string;
-};
+export declare const stringToByteArray: (str: string) => number[];
+/**
+ * Calculate length without actually converting; useful for doing cheaper validation.
+ * @param {string} str
+ * @return {number}
+ */
+export declare const stringLength: (str: string) => number;

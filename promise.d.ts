@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2017 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,7 @@
  * limitations under the License.
  */
 /**
- * @fileoverview Firebase constants.  Some of these (@defines) can be overridden at compile-time.
+ * Rejects if the given promise doesn't resolve in timeInMS milliseconds.
+ * @internal
  */
-export declare const CONSTANTS: {
-    /**
-     * @define {boolean} Whether this is the client Node.js SDK.
-     */
-    NODE_CLIENT: boolean;
-    /**
-     * @define {boolean} Whether this is the Admin Node.js SDK.
-     */
-    NODE_ADMIN: boolean;
-    /**
-     * Firebase SDK Version
-     */
-    SDK_VERSION: string;
-};
+export declare function promiseWithTimeout<T>(promise: Promise<T>, timeInMS?: number): Promise<T>;

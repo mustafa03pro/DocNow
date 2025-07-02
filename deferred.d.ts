@@ -14,20 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @fileoverview Firebase constants.  Some of these (@defines) can be overridden at compile-time.
- */
-export declare const CONSTANTS: {
+export declare class Deferred<R> {
+    promise: Promise<R>;
+    reject: (value?: unknown) => void;
+    resolve: (value?: unknown) => void;
+    constructor();
     /**
-     * @define {boolean} Whether this is the client Node.js SDK.
+     * Our API internals are not promisified and cannot because our callback APIs have subtle expectations around
+     * invoking promises inline, which Promises are forbidden to do. This method accepts an optional node-style callback
+     * and returns a node-style callback which will resolve or reject the Deferred's promise.
      */
-    NODE_CLIENT: boolean;
-    /**
-     * @define {boolean} Whether this is the Admin Node.js SDK.
-     */
-    NODE_ADMIN: boolean;
-    /**
-     * Firebase SDK Version
-     */
-    SDK_VERSION: string;
-};
+    wrapCallback(callback?: (error?: unknown, value?: unknown) => void): (error: unknown, value?: unknown) => void;
+}

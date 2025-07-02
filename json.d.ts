@@ -15,19 +15,15 @@
  * limitations under the License.
  */
 /**
- * @fileoverview Firebase constants.  Some of these (@defines) can be overridden at compile-time.
+ * Evaluates a JSON string into a javascript object.
+ *
+ * @param {string} str A string containing JSON.
+ * @return {*} The javascript object representing the specified JSON.
  */
-export declare const CONSTANTS: {
-    /**
-     * @define {boolean} Whether this is the client Node.js SDK.
-     */
-    NODE_CLIENT: boolean;
-    /**
-     * @define {boolean} Whether this is the Admin Node.js SDK.
-     */
-    NODE_ADMIN: boolean;
-    /**
-     * Firebase SDK Version
-     */
-    SDK_VERSION: string;
-};
+export declare function jsonEval(str: string): unknown;
+/**
+ * Returns JSON representing a javascript object.
+ * @param {*} data JavaScript object to be stringified.
+ * @return {string} The JSON contents of the object.
+ */
+export declare function stringify(data: unknown): string;

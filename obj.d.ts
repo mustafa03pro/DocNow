@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @fileoverview Firebase constants.  Some of these (@defines) can be overridden at compile-time.
- */
-export declare const CONSTANTS: {
-    /**
-     * @define {boolean} Whether this is the client Node.js SDK.
-     */
-    NODE_CLIENT: boolean;
-    /**
-     * @define {boolean} Whether this is the Admin Node.js SDK.
-     */
-    NODE_ADMIN: boolean;
-    /**
-     * Firebase SDK Version
-     */
-    SDK_VERSION: string;
+export declare function contains<T extends object>(obj: T, key: string): boolean;
+export declare function safeGet<T extends object, K extends keyof T>(obj: T, key: K): T[K] | undefined;
+export declare function isEmpty(obj: object): obj is {};
+export declare function map<K extends string, V, U>(obj: {
+    [key in K]: V;
+}, fn: (value: V, key: K, obj: {
+    [key in K]: V;
+}) => U, contextObj?: unknown): {
+    [key in K]: U;
 };
+/**
+ * Deep equal two objects. Support Arrays and Objects.
+ */
+export declare function deepEqual(a: object, b: object): boolean;
