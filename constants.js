@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Copyright 2024 Google LLC. All Rights Reserved.
  *
@@ -13,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as protos from '../../protos/firestore_v1_proto_api';
-import api = protos.google.firestore.v1;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NOOP_MESSAGE = exports.comparisonOperators = exports.directionOperators = void 0;
 /**
  * The direction of a `Query.orderBy()` clause is specified as 'desc' or 'asc'
  * (descending or ascending).
@@ -22,8 +23,9 @@ import api = protos.google.firestore.v1;
  * @private
  * @internal
  */
-export declare const directionOperators: {
-    [k: string]: api.StructuredQuery.Direction;
+exports.directionOperators = {
+    asc: 'ASCENDING',
+    desc: 'DESCENDING',
 };
 /**
  * Filter conditions in a `Query.where()` clause are specified using the
@@ -33,7 +35,17 @@ export declare const directionOperators: {
  * @private
  * @internal
  */
-export declare const comparisonOperators: {
-    [k: string]: api.StructuredQuery.FieldFilter.Operator;
+exports.comparisonOperators = {
+    '<': 'LESS_THAN',
+    '<=': 'LESS_THAN_OR_EQUAL',
+    '==': 'EQUAL',
+    '!=': 'NOT_EQUAL',
+    '>': 'GREATER_THAN',
+    '>=': 'GREATER_THAN_OR_EQUAL',
+    'array-contains': 'ARRAY_CONTAINS',
+    in: 'IN',
+    'not-in': 'NOT_IN',
+    'array-contains-any': 'ARRAY_CONTAINS_ANY',
 };
-export declare const NOOP_MESSAGE: unique symbol;
+exports.NOOP_MESSAGE = Symbol('a noop message');
+//# sourceMappingURL=constants.js.map

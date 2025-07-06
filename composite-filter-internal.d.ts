@@ -15,25 +15,16 @@
  */
 import * as protos from '../../protos/firestore_v1_proto_api';
 import api = protos.google.firestore.v1;
-/**
- * The direction of a `Query.orderBy()` clause is specified as 'desc' or 'asc'
- * (descending or ascending).
- *
- * @private
- * @internal
- */
-export declare const directionOperators: {
-    [k: string]: api.StructuredQuery.Direction;
-};
-/**
- * Filter conditions in a `Query.where()` clause are specified using the
- * strings '<', '<=', '==', '!=', '>=', '>', 'array-contains', 'in', 'not-in',
- * and 'array-contains-any'.
- *
- * @private
- * @internal
- */
-export declare const comparisonOperators: {
-    [k: string]: api.StructuredQuery.FieldFilter.Operator;
-};
-export declare const NOOP_MESSAGE: unique symbol;
+import { FilterInternal } from './filter-internal';
+import { FieldFilterInternal } from './field-filter-internal';
+export declare class CompositeFilterInternal extends FilterInternal {
+    private filters;
+    private operator;
+    constructor(filters: FilterInternal[], operator: api.StructuredQuery.CompositeFilter.Operator);
+    private memoizedFlattenedFilters;
+    getFilters(): FilterInternal[];
+    isConjunction(): boolean;
+    getFlattenedFilters(): FieldFilterInternal[];
+    toProto(): api.StructuredQuery.IFilter;
+    isEqual(other: FilterInternal): boolean;
+}
