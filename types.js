@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Copyright 2024 Google LLC. All Rights Reserved.
  *
@@ -13,39 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as protos from '../../protos/firestore_v1_proto_api';
-import api = protos.google.firestore.v1;
-import { Timestamp } from '../timestamp';
-import { ExplainMetrics } from '../query-profile';
-import { QueryDocumentSnapshot } from '../document';
-import * as firestore from '@google-cloud/firestore';
-export interface QueryStreamElement<AppModelType = firestore.DocumentData, DbModelType extends firestore.DocumentData = firestore.DocumentData> {
-    transaction?: Uint8Array;
-    readTime?: Timestamp;
-    explainMetrics?: ExplainMetrics;
-    document?: QueryDocumentSnapshot<AppModelType, DbModelType>;
-}
-export interface QueryResponse<TSnapshot> {
-    transaction?: Uint8Array;
-    explainMetrics?: ExplainMetrics;
-    result?: TSnapshot;
-}
-export interface QuerySnapshotResponse<TSnapshot> extends QueryResponse<TSnapshot> {
-    result: TSnapshot;
-}
-/** Internal representation of a query cursor before serialization. */
-export interface QueryCursor {
-    before: boolean;
-    values: api.IValue[];
-}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LimitType = void 0;
 /*!
  * Denotes whether a provided limit is applied to the beginning or the end of
  * the result set.
  */
-export declare enum LimitType {
-    First = 0,
-    Last = 1
-}
+var LimitType;
+(function (LimitType) {
+    LimitType[LimitType["First"] = 0] = "First";
+    LimitType[LimitType["Last"] = 1] = "Last";
+})(LimitType || (exports.LimitType = LimitType = {}));
 /**
  * onSnapshot() callback that receives a QuerySnapshot.
  *
@@ -64,3 +43,4 @@ export declare enum LimitType {
  * @callback errorCallback
  * @param {Error} err An error from a listen.
  */
+//# sourceMappingURL=types.js.map

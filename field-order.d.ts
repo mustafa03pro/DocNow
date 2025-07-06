@@ -15,25 +15,28 @@
  */
 import * as protos from '../../protos/firestore_v1_proto_api';
 import api = protos.google.firestore.v1;
+import { FieldPath } from '../path';
 /**
- * The direction of a `Query.orderBy()` clause is specified as 'desc' or 'asc'
- * (descending or ascending).
+ * A Query order-by field.
  *
  * @private
  * @internal
+ * @class
  */
-export declare const directionOperators: {
-    [k: string]: api.StructuredQuery.Direction;
-};
-/**
- * Filter conditions in a `Query.where()` clause are specified using the
- * strings '<', '<=', '==', '!=', '>=', '>', 'array-contains', 'in', 'not-in',
- * and 'array-contains-any'.
- *
- * @private
- * @internal
- */
-export declare const comparisonOperators: {
-    [k: string]: api.StructuredQuery.FieldFilter.Operator;
-};
-export declare const NOOP_MESSAGE: unique symbol;
+export declare class FieldOrder {
+    readonly field: FieldPath;
+    readonly direction: api.StructuredQuery.Direction;
+    /**
+     * @param field The name of a document field (member) on which to order query
+     * results.
+     * @param direction One of 'ASCENDING' (default) or 'DESCENDING' to
+     * set the ordering direction to ascending or descending, respectively.
+     */
+    constructor(field: FieldPath, direction?: api.StructuredQuery.Direction);
+    /**
+     * Generates the proto representation for this field order.
+     * @private
+     * @internal
+     */
+    toProto(): api.StructuredQuery.IOrder;
+}
