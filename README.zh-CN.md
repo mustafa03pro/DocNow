@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<h3><p align="center">A javascript standard data structure library which benchmark against C++ STL</p></h3>
+<h3><p align="center">一款参考 C++ STL 实现的 JavaScript 标准数据结构库</p></h3>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/js-sdsl"><img src="https://img.shields.io/npm/v/js-sdsl.svg" alt="NPM Version" /></a>
@@ -18,45 +18,47 @@
   <a href="https://github.com/js-sdsl/js-sdsl/"><img src="https://img.shields.io/github/languages/top/js-sdsl/js-sdsl.svg" alt="GITHUB-language" /></a>
 </p>
 
-<p align="center">English | <a href="https://github.com/js-sdsl/js-sdsl/blob/main/README.zh-CN.md">简体中文</a></p>
+<p align="center"><a href="https://github.com/js-sdsl/js-sdsl/blob/main/README.md">English</a> | 简体中文</p>
 
-## ✨ Included data structures
+## ✨ 包含的数据结构
 
-- **Stack** - first in last out stack.
-- **Queue** - first in first out queue.
-- **PriorityQueue** - heap-implemented priority queue.
-- **Vector** - protected array, cannot to operate properties like `length` directly.
-- **LinkList** - linked list of non-contiguous memory addresses.
-- **Deque** - double-ended-queue, O(1) time complexity to `unshift` or getting elements by index.
-- **OrderedSet** - sorted set which implemented by red black tree.
-- **OrderedMap** - sorted map which implemented by red black tree.
-- **HashSet** - refer to the [polyfill of ES6 Set](https://github.com/rousan/collections-es6).
-- **HashMap** - refer to the [polyfill of ES6 Map](https://github.com/rousan/collections-es6).
+- **Stack** - 先进后出的堆栈
+- **Queue** - 先进先出的队列
+- **PriorityQueue** - 堆实现的优先级队列
+- **Vector** - 受保护的数组，不能直接操作像 `length` 这样的属性
+- **LinkList** - 非连续内存地址的链表
+- **Deque** - 双端队列，向前和向后插入元素或按索引获取元素的时间复杂度为 O(1)
+- **OrderedSet** - 由红黑树实现的排序集合
+- **OrderedMap** - 由红黑树实现的排序字典
+- **HashSet** - 参考 [ES6 Set polyfill](https://github.com/rousan/collections-es6) 实现的哈希集合
+- **HashMap** - 参考 [ES6 Set polyfill](https://github.com/rousan/collections-es6) 实现的哈希字典
 
-## ⚔️ Benchmark
+## ⚔️ 基准测试
 
-We are benchmarking against other popular data structure libraries. In some ways we're better than the best library. See [benchmark](https://js-sdsl.org/#/test/benchmark-analyze).
+我们和其他数据结构库进行了基准测试，在某些场景我们甚至超过了当前最流行的库
 
-## 🖥 Supported platforms
+查看 [benchmark](https://js-sdsl.org/#/zh-cn/test/benchmark-analyze) 以获取更多信息
+
+## 🖥 支持的平台
 
 | ![][Edge-Icon]<br/>IE / Edge | ![][Firefox-Icon]<br/>Firefox | ![][Chrome-Icon]<br/>Chrome | ![][Safari-Icon]<br/>Safari | ![][Opera-Icon]<br/>Opera | ![][NodeJs-Icon]<br/>NodeJs |
 |:----------------------------:|:-----------------------------:|:---------------------------:|:---------------------------:|:-------------------------:|:---------------------------:|
 |           Edge 12            |              36               |             49              |             10              |            36             |             10              |
 
-## 📦 Download
+## 📦 下载
 
-Download directly by cdn:
+使用 cdn 直接引入
 
 - [js-sdsl.js](https://unpkg.com/js-sdsl/dist/umd/js-sdsl.js) (for development)
 - [js-sdsl.min.js](https://unpkg.com/js-sdsl/dist/umd/js-sdsl.min.js) (for production)
 
-Or install js-sdsl using npm:
+使用 npm 下载
 
 ```bash
 npm install js-sdsl
 ```
 
-Or you can download the isolation packages containing only the containers you want:
+或者根据需要安装以下任意单个包
 
 | package                                           | npm                                                                   | size                                                             | docs                        |
 |---------------------------------------------------|-----------------------------------------------------------------------|------------------------------------------------------------------|-----------------------------|
@@ -71,26 +73,26 @@ Or you can download the isolation packages containing only the containers you wa
 | [@js-sdsl/hash-set][hash-set-package]             | [![NPM Package][hash-set-npm-version]][hash-set-npm-link]             | [![GZIP Size][hash-set-umd-size]][hash-set-umd-link]             | [link][hash-set-docs]       |
 | [@js-sdsl/hash-map][hash-map-package]             | [![NPM Package][hash-map-npm-version]][hash-map-npm-link]             | [![GZIP Size][hash-map-umd-size]][hash-map-umd-link]             | [link][hash-map-docs]       |
 
-## 🪒 Usage
+## 🪒 使用说明
 
-You can visit our [official website](https://js-sdsl.org/) to get more information.
+您可以[访问我们的主页](https://js-sdsl.org/)获取更多信息
 
-To help you have a better use, we also provide this [API document](https://js-sdsl.org/js-sdsl/index.html).
+并且我们提供了完整的 [API 文档](https://js-sdsl.org/js-sdsl/index.html)供您参考
 
-For previous versions of the documentation, please visit:
+想要查看从前版本的文档，请访问：
 
 `https://js-sdsl.org/js-sdsl/previous/v${version}/index.html`
 
-E.g.
+例如：
 
 [https://js-sdsl.org/js-sdsl/previous/v4.1.5/index.html](https://js-sdsl.org/js-sdsl/previous/v4.1.5/index.html)
 
-### For browser
+### 在浏览器中使用
 
 ```html
 <script src="https://unpkg.com/js-sdsl/dist/umd/js-sdsl.min.js"></script>
 <script>
-    const {
+    const { 
       Vector,
       Stack,
       Queue,
@@ -108,7 +110,7 @@ E.g.
 </script>
 ```
 
-### For npm
+### npm 引入
 
 ```javascript
 // esModule
@@ -120,25 +122,25 @@ myOrderedMap.setElement(1, 2);
 console.log(myOrderedMap.getElementByKey(1)); // 2
 ```
 
-## 🛠 Test
+## 🛠 测试
 
-### Unit test
+### 单元测试
 
-We use [karma](https://karma-runner.github.io/) and [mocha](https://mochajs.org/) frame to do unit tests and synchronize to [coveralls](https://coveralls.io/github/js-sdsl/js-sdsl). You can run `yarn test:unit` command to reproduce it.
+我们使用 [karma](https://karma-runner.github.io/) 和 [mocha](https://mochajs.org/) 框架进行单元测试，并同步到 [coveralls](https://coveralls.io/github/js-sdsl/js-sdsl) 上，你可以使用 `yarn test:unit` 命令来重建它
 
-### For performance
+### 对于性能的校验
 
-We tested most of the functions for efficiency. You can go to [`gh-pages/performance.md`](https://github.com/js-sdsl/js-sdsl/blob/gh-pages/performance.md) to see our running results or reproduce it with `yarn test:performance` command.
+我们对于编写的所有 API 进行了性能测试，并将结果同步到了 [`gh-pages/performance.md`](https://github.com/js-sdsl/js-sdsl/blob/gh-pages/performance.md) 中，你可以通过 `yarn test:performance` 命令来重现它
 
-You can also visit [here](https://js-sdsl.org/#/test/performance-test) to get the result.
+您也可以访问[我们的网站](https://js-sdsl.org/#/zh-cn/test/performance-test)来获取结果
 
-## ⌨️ Development
+## ⌨️ 开发
 
-Use Gitpod, a free online dev environment for GitHub.
+可以使用 Gitpod 进行在线编辑：
 
 [![Open in Gippod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/js-sdsl/js-sdsl)
 
-Or clone locally:
+或者在本地使用以下命令获取源码进行开发：
 
 ```bash
 $ git clone https://github.com/js-sdsl/js-sdsl.git
@@ -147,15 +149,15 @@ $ npm install
 $ npm run dev   # development mode
 ```
 
-Then you can see the output in `dist/cjs` folder.
+之后您在 `dist/cjs` 文件夹中可以看到在 `dev` 模式下打包生成的产物
 
-## 🤝 Contributing
+## 🤝 贡献
 
-Feel free to dive in! Open an issue or submit PRs. It may be helpful to read the [Contributor Guide](https://github.com/js-sdsl/js-sdsl/blob/main/.github/CONTRIBUTING.md).
+我们欢迎所有的开发人员提交 issue 或 pull request，阅读[贡献者指南](https://github.com/js-sdsl/js-sdsl/blob/main/.github/CONTRIBUTING.md)可能会有所帮助
 
-### Contributors
+### 贡献者
 
-Thanks goes to these wonderful people:
+感谢对本项目做出贡献的开发者们：
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -174,21 +176,21 @@ Thanks goes to these wonderful people:
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+本项目遵循 [all-contributors](https://github.com/all-contributors/all-contributors) 规范。 欢迎任何形式的贡献！
 
-## ❤️ Sponsors and Backers
+## ❤️ 赞助者
 
-The special thanks to these sponsors or backers because they provided support at a very early stage:
+特别鸣谢下列赞助商和支持者们，他们在非常早期的时候为我们提供了支持：
 
 <a href="https://eslint.org/"><img src="https://js-sdsl.org/assets/image/sponsors/eslint-logo-color.png" alt="eslint logo" width="150"></a>
 
-Thanks also give to these sponsors or backers:
+同样感谢这些赞助商和支持者们：
 
 [![sponsors](https://opencollective.com/js-sdsl/tiers/sponsors.svg?avatarHeight=36)](https://opencollective.com/js-sdsl#support)
 
 [![backers](https://opencollective.com/js-sdsl/tiers/backers.svg?avatarHeight=36)](https://opencollective.com/js-sdsl#support)
 
-## 🪪 License
+## 🪪 许可证
 
 [MIT](https://github.com/js-sdsl/js-sdsl/blob/main/LICENSE) © [ZLY201](https://github.com/zly201)
 
