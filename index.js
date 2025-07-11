@@ -1,244 +1,65 @@
 "use strict";
-/**
- * @license
- * Copyright 2018 gRPC authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadFileDescriptorSetFromObject = exports.loadFileDescriptorSetFromBuffer = exports.fromJSON = exports.loadSync = exports.load = exports.IdempotencyLevel = exports.isAnyExtension = exports.Long = void 0;
-const camelCase = require("lodash.camelcase");
-const Protobuf = require("protobufjs");
-const descriptor = require("protobufjs/ext/descriptor");
-const util_1 = require("./util");
-const Long = require("long");
-exports.Long = Long;
-function isAnyExtension(obj) {
-    return ('@type' in obj) && (typeof obj['@type'] === 'string');
-}
-exports.isAnyExtension = isAnyExtension;
-var IdempotencyLevel;
-(function (IdempotencyLevel) {
-    IdempotencyLevel["IDEMPOTENCY_UNKNOWN"] = "IDEMPOTENCY_UNKNOWN";
-    IdempotencyLevel["NO_SIDE_EFFECTS"] = "NO_SIDE_EFFECTS";
-    IdempotencyLevel["IDEMPOTENT"] = "IDEMPOTENT";
-})(IdempotencyLevel = exports.IdempotencyLevel || (exports.IdempotencyLevel = {}));
-const descriptorOptions = {
-    longs: String,
-    enums: String,
-    bytes: String,
-    defaults: true,
-    oneofs: true,
-    json: true,
-};
-function joinName(baseName, name) {
-    if (baseName === '') {
-        return name;
-    }
-    else {
-        return baseName + '.' + name;
-    }
-}
-function isHandledReflectionObject(obj) {
-    return (obj instanceof Protobuf.Service ||
-        obj instanceof Protobuf.Type ||
-        obj instanceof Protobuf.Enum);
-}
-function isNamespaceBase(obj) {
-    return obj instanceof Protobuf.Namespace || obj instanceof Protobuf.Root;
-}
-function getAllHandledReflectionObjects(obj, parentName) {
-    const objName = joinName(parentName, obj.name);
-    if (isHandledReflectionObject(obj)) {
-        return [[objName, obj]];
-    }
-    else {
-        if (isNamespaceBase(obj) && typeof obj.nested !== 'undefined') {
-            return Object.keys(obj.nested)
-                .map(name => {
-                return getAllHandledReflectionObjects(obj.nested[name], objName);
-            })
-                .reduce((accumulator, currentValue) => accumulator.concat(currentValue), []);
-        }
-    }
-    return [];
-}
-function createDeserializer(cls, options) {
-    return function deserialize(argBuf) {
-        return cls.toObject(cls.decode(argBuf), options);
-    };
-}
-function createSerializer(cls) {
-    return function serialize(arg) {
-        if (Array.isArray(arg)) {
-            throw new Error(`Failed to serialize message: expected object with ${cls.name} structure, got array instead`);
-        }
-        const message = cls.fromObject(arg);
-        return cls.encode(message).finish();
-    };
-}
-function mapMethodOptions(options) {
-    return (options || []).reduce((obj, item) => {
-        for (const [key, value] of Object.entries(item)) {
-            switch (key) {
-                case 'uninterpreted_option':
-                    obj.uninterpreted_option.push(item.uninterpreted_option);
-                    break;
-                default:
-                    obj[key] = value;
+const getCodePoint = (character) => character.codePointAt(0);
+const first = (x) => x[0];
+const last = (x) => x[x.length - 1];
+function toCodePoints(input) {
+    const codepoints = [];
+    const size = input.length;
+    for (let i = 0; i < size; i += 1) {
+        const before = input.charCodeAt(i);
+        if (before >= 0xd800 && before <= 0xdbff && size > i + 1) {
+            const next = input.charCodeAt(i + 1);
+            if (next >= 0xdc00 && next <= 0xdfff) {
+                codepoints.push((before - 0xd800) * 0x400 + next - 0xdc00 + 0x10000);
+                i += 1;
+                continue;
             }
         }
-        return obj;
-    }, {
-        deprecated: false,
-        idempotency_level: IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
-        uninterpreted_option: [],
-    });
-}
-function createMethodDefinition(method, serviceName, options, fileDescriptors) {
-    /* This is only ever called after the corresponding root.resolveAll(), so we
-     * can assume that the resolved request and response types are non-null */
-    const requestType = method.resolvedRequestType;
-    const responseType = method.resolvedResponseType;
-    return {
-        path: '/' + serviceName + '/' + method.name,
-        requestStream: !!method.requestStream,
-        responseStream: !!method.responseStream,
-        requestSerialize: createSerializer(requestType),
-        requestDeserialize: createDeserializer(requestType, options),
-        responseSerialize: createSerializer(responseType),
-        responseDeserialize: createDeserializer(responseType, options),
-        // TODO(murgatroid99): Find a better way to handle this
-        originalName: camelCase(method.name),
-        requestType: createMessageDefinition(requestType, fileDescriptors),
-        responseType: createMessageDefinition(responseType, fileDescriptors),
-        options: mapMethodOptions(method.parsedOptions),
-    };
-}
-function createServiceDefinition(service, name, options, fileDescriptors) {
-    const def = {};
-    for (const method of service.methodsArray) {
-        def[method.name] = createMethodDefinition(method, name, options, fileDescriptors);
+        codepoints.push(before);
     }
-    return def;
+    return codepoints;
 }
-function createMessageDefinition(message, fileDescriptors) {
-    const messageDescriptor = message.toDescriptor('proto3');
-    return {
-        format: 'Protocol Buffer 3 DescriptorProto',
-        type: messageDescriptor.$type.toObject(messageDescriptor, descriptorOptions),
-        fileDescriptorProtos: fileDescriptors,
-    };
-}
-function createEnumDefinition(enumType, fileDescriptors) {
-    const enumDescriptor = enumType.toDescriptor('proto3');
-    return {
-        format: 'Protocol Buffer 3 EnumDescriptorProto',
-        type: enumDescriptor.$type.toObject(enumDescriptor, descriptorOptions),
-        fileDescriptorProtos: fileDescriptors,
-    };
-}
-/**
- * function createDefinition(obj: Protobuf.Service, name: string, options:
- * Options): ServiceDefinition; function createDefinition(obj: Protobuf.Type,
- * name: string, options: Options): MessageTypeDefinition; function
- * createDefinition(obj: Protobuf.Enum, name: string, options: Options):
- * EnumTypeDefinition;
- */
-function createDefinition(obj, name, options, fileDescriptors) {
-    if (obj instanceof Protobuf.Service) {
-        return createServiceDefinition(obj, name, options, fileDescriptors);
+function saslprep({ unassigned_code_points, commonly_mapped_to_nothing, non_ASCII_space_characters, prohibited_characters, bidirectional_r_al, bidirectional_l, }, input, opts = {}) {
+    const mapping2space = non_ASCII_space_characters;
+    const mapping2nothing = commonly_mapped_to_nothing;
+    if (typeof input !== 'string') {
+        throw new TypeError('Expected string.');
     }
-    else if (obj instanceof Protobuf.Type) {
-        return createMessageDefinition(obj, fileDescriptors);
+    if (input.length === 0) {
+        return '';
     }
-    else if (obj instanceof Protobuf.Enum) {
-        return createEnumDefinition(obj, fileDescriptors);
+    const mapped_input = toCodePoints(input)
+        .map((character) => (mapping2space.get(character) ? 0x20 : character))
+        .filter((character) => !mapping2nothing.get(character));
+    const normalized_input = String.fromCodePoint
+        .apply(null, mapped_input)
+        .normalize('NFKC');
+    const normalized_map = toCodePoints(normalized_input);
+    const hasProhibited = normalized_map.some((character) => prohibited_characters.get(character));
+    if (hasProhibited) {
+        throw new Error('Prohibited character, see https://tools.ietf.org/html/rfc4013#section-2.3');
     }
-    else {
-        throw new Error('Type mismatch in reflection object handling');
+    if (opts.allowUnassigned !== true) {
+        const hasUnassigned = normalized_map.some((character) => unassigned_code_points.get(character));
+        if (hasUnassigned) {
+            throw new Error('Unassigned code point, see https://tools.ietf.org/html/rfc4013#section-2.5');
+        }
     }
-}
-function createPackageDefinition(root, options) {
-    const def = {};
-    root.resolveAll();
-    const descriptorList = root.toDescriptor('proto3').file;
-    const bufferList = descriptorList.map(value => Buffer.from(descriptor.FileDescriptorProto.encode(value).finish()));
-    for (const [name, obj] of getAllHandledReflectionObjects(root, '')) {
-        def[name] = createDefinition(obj, name, options, bufferList);
+    const hasBidiRAL = normalized_map.some((character) => bidirectional_r_al.get(character));
+    const hasBidiL = normalized_map.some((character) => bidirectional_l.get(character));
+    if (hasBidiRAL && hasBidiL) {
+        throw new Error('String must not contain RandALCat and LCat at the same time,' +
+            ' see https://tools.ietf.org/html/rfc3454#section-6');
     }
-    return def;
+    const isFirstBidiRAL = bidirectional_r_al.get(getCodePoint(first(normalized_input)));
+    const isLastBidiRAL = bidirectional_r_al.get(getCodePoint(last(normalized_input)));
+    if (hasBidiRAL && !(isFirstBidiRAL && isLastBidiRAL)) {
+        throw new Error('Bidirectional RandALCat character must be the first and the last' +
+            ' character of the string, see https://tools.ietf.org/html/rfc3454#section-6');
+    }
+    return normalized_input;
 }
-function createPackageDefinitionFromDescriptorSet(decodedDescriptorSet, options) {
-    options = options || {};
-    const root = Protobuf.Root.fromDescriptor(decodedDescriptorSet);
-    root.resolveAll();
-    return createPackageDefinition(root, options);
-}
-/**
- * Load a .proto file with the specified options.
- * @param filename One or multiple file paths to load. Can be an absolute path
- *     or relative to an include path.
- * @param options.keepCase Preserve field names. The default is to change them
- *     to camel case.
- * @param options.longs The type that should be used to represent `long` values.
- *     Valid options are `Number` and `String`. Defaults to a `Long` object type
- *     from a library.
- * @param options.enums The type that should be used to represent `enum` values.
- *     The only valid option is `String`. Defaults to the numeric value.
- * @param options.bytes The type that should be used to represent `bytes`
- *     values. Valid options are `Array` and `String`. The default is to use
- *     `Buffer`.
- * @param options.defaults Set default values on output objects. Defaults to
- *     `false`.
- * @param options.arrays Set empty arrays for missing array values even if
- *     `defaults` is `false`. Defaults to `false`.
- * @param options.objects Set empty objects for missing object values even if
- *     `defaults` is `false`. Defaults to `false`.
- * @param options.oneofs Set virtual oneof properties to the present field's
- *     name
- * @param options.json Represent Infinity and NaN as strings in float fields,
- *     and automatically decode google.protobuf.Any values.
- * @param options.includeDirs Paths to search for imported `.proto` files.
- */
-function load(filename, options) {
-    return (0, util_1.loadProtosWithOptions)(filename, options).then(loadedRoot => {
-        return createPackageDefinition(loadedRoot, options);
-    });
-}
-exports.load = load;
-function loadSync(filename, options) {
-    const loadedRoot = (0, util_1.loadProtosWithOptionsSync)(filename, options);
-    return createPackageDefinition(loadedRoot, options);
-}
-exports.loadSync = loadSync;
-function fromJSON(json, options) {
-    options = options || {};
-    const loadedRoot = Protobuf.Root.fromJSON(json);
-    loadedRoot.resolveAll();
-    return createPackageDefinition(loadedRoot, options);
-}
-exports.fromJSON = fromJSON;
-function loadFileDescriptorSetFromBuffer(descriptorSet, options) {
-    const decodedDescriptorSet = descriptor.FileDescriptorSet.decode(descriptorSet);
-    return createPackageDefinitionFromDescriptorSet(decodedDescriptorSet, options);
-}
-exports.loadFileDescriptorSetFromBuffer = loadFileDescriptorSetFromBuffer;
-function loadFileDescriptorSetFromObject(descriptorSet, options) {
-    const decodedDescriptorSet = descriptor.FileDescriptorSet.fromObject(descriptorSet);
-    return createPackageDefinitionFromDescriptorSet(decodedDescriptorSet, options);
-}
-exports.loadFileDescriptorSetFromObject = loadFileDescriptorSetFromObject;
-(0, util_1.addCommonProtos)();
+saslprep.saslprep = saslprep;
+saslprep.default = saslprep;
+module.exports = saslprep;
 //# sourceMappingURL=index.js.map
