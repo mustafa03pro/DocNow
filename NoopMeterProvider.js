@@ -13,5 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { wrapTracer, SugaredTracer } from './trace/SugaredTracer';
-//# sourceMappingURL=index.js.map
+import { NOOP_METER } from './NoopMeter';
+/**
+ * An implementation of the {@link MeterProvider} which returns an impotent Meter
+ * for all calls to `getMeter`
+ */
+var NoopMeterProvider = /** @class */ (function () {
+    function NoopMeterProvider() {
+    }
+    NoopMeterProvider.prototype.getMeter = function (_name, _version, _options) {
+        return NOOP_METER;
+    };
+    return NoopMeterProvider;
+}());
+export { NoopMeterProvider };
+export var NOOP_METER_PROVIDER = new NoopMeterProvider();
+//# sourceMappingURL=NoopMeterProvider.js.map
