@@ -13,5 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { wrapTracer, SugaredTracer } from './trace/SugaredTracer';
-//# sourceMappingURL=index.js.map
+/**
+ * Symbol used to make BaggageEntryMetadata an opaque type
+ */
+export var baggageEntryMetadataSymbol = Symbol('BaggageEntryMetadata');
+//# sourceMappingURL=symbol.js.map

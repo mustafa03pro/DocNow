@@ -1,12 +1,11 @@
-"use strict";
-/**
- * Copyright 2024 Google LLC. All Rights Reserved.
+/*
+ * Copyright The OpenTelemetry Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,33 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LimitType = void 0;
-/*!
- * Denotes whether a provided limit is applied to the beginning or the end of
- * the result set.
- */
-var LimitType;
-(function (LimitType) {
-    LimitType[LimitType["First"] = 0] = "First";
-    LimitType[LimitType["Last"] = 1] = "Last";
-})(LimitType || (exports.LimitType = LimitType = {}));
 /**
- * onSnapshot() callback that receives a QuerySnapshot.
- *
- * @callback querySnapshotCallback
- * @param {QuerySnapshot} snapshot A query snapshot.
+ * Defines the available internal logging levels for the diagnostic logger, the numeric values
+ * of the levels are defined to match the original values from the initial LogLevel to avoid
+ * compatibility/migration issues for any implementation that assume the numeric ordering.
  */
-/**
- * onSnapshot() callback that receives a DocumentSnapshot.
- *
- * @callback documentSnapshotCallback
- * @param {DocumentSnapshot} snapshot A document snapshot.
- */
-/**
- * onSnapshot() callback that receives an error.
- *
- * @callback errorCallback
- * @param {Error} err An error from a listen.
- */
+export var DiagLogLevel;
+(function (DiagLogLevel) {
+    /** Diagnostic Logging level setting to disable all logging (except and forced logs) */
+    DiagLogLevel[DiagLogLevel["NONE"] = 0] = "NONE";
+    /** Identifies an error scenario */
+    DiagLogLevel[DiagLogLevel["ERROR"] = 30] = "ERROR";
+    /** Identifies a warning scenario */
+    DiagLogLevel[DiagLogLevel["WARN"] = 50] = "WARN";
+    /** General informational log message */
+    DiagLogLevel[DiagLogLevel["INFO"] = 60] = "INFO";
+    /** General debug log message */
+    DiagLogLevel[DiagLogLevel["DEBUG"] = 70] = "DEBUG";
+    /**
+     * Detailed trace level logging should only be used for development, should only be set
+     * in a development environment.
+     */
+    DiagLogLevel[DiagLogLevel["VERBOSE"] = 80] = "VERBOSE";
+    /** Used to set the logging level to include all logging */
+    DiagLogLevel[DiagLogLevel["ALL"] = 9999] = "ALL";
+})(DiagLogLevel || (DiagLogLevel = {}));
 //# sourceMappingURL=types.js.map

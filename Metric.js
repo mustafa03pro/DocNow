@@ -13,5 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { wrapTracer, SugaredTracer } from './trace/SugaredTracer';
-//# sourceMappingURL=index.js.map
+/** The Type of value. It describes how the data is reported. */
+export var ValueType;
+(function (ValueType) {
+    ValueType[ValueType["INT"] = 0] = "INT";
+    ValueType[ValueType["DOUBLE"] = 1] = "DOUBLE";
+})(ValueType || (ValueType = {}));
+//# sourceMappingURL=Metric.js.map

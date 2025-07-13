@@ -13,5 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { wrapTracer, SugaredTracer } from './trace/SugaredTracer';
-//# sourceMappingURL=index.js.map
+function noopLogFunction() { }
+/**
+ * Returns a No-Op Diagnostic logger where all messages do nothing.
+ * @implements {@link DiagLogger}
+ * @returns {DiagLogger}
+ */
+export function createNoopDiagLogger() {
+    return {
+        verbose: noopLogFunction,
+        debug: noopLogFunction,
+        info: noopLogFunction,
+        warn: noopLogFunction,
+        error: noopLogFunction,
+    };
+}
+//# sourceMappingURL=noopLogger.js.map
