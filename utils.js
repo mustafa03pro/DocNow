@@ -16,14 +16,13 @@
 import { DiagAPI } from '../api/diag';
 import { BaggageImpl } from './internal/baggage-impl';
 import { baggageEntryMetadataSymbol } from './internal/symbol';
-var diag = DiagAPI.instance();
+const diag = DiagAPI.instance();
 /**
  * Create a new Baggage with optional entries
  *
  * @param entries An array of baggage entries the new baggage should contain
  */
-export function createBaggage(entries) {
-    if (entries === void 0) { entries = {}; }
+export function createBaggage(entries = {}) {
     return new BaggageImpl(new Map(Object.entries(entries)));
 }
 /**
@@ -34,12 +33,12 @@ export function createBaggage(entries) {
  */
 export function baggageEntryMetadataFromString(str) {
     if (typeof str !== 'string') {
-        diag.error("Cannot create baggage metadata from unknown type: " + typeof str);
+        diag.error(`Cannot create baggage metadata from unknown type: ${typeof str}`);
         str = '';
     }
     return {
         __TYPE__: baggageEntryMetadataSymbol,
-        toString: function () {
+        toString() {
             return str;
         },
     };

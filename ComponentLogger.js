@@ -13,31 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 import { getGlobal } from '../internal/global-utils';
 /**
  * Component Logger which is meant to be used as part of any component which
@@ -48,55 +23,33 @@ import { getGlobal } from '../internal/global-utils';
  * cLogger.debug('test');
  * // @opentelemetry/instrumentation-http test
  */
-var DiagComponentLogger = /** @class */ (function () {
-    function DiagComponentLogger(props) {
+export class DiagComponentLogger {
+    constructor(props) {
         this._namespace = props.namespace || 'DiagComponentLogger';
     }
-    DiagComponentLogger.prototype.debug = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
+    debug(...args) {
         return logProxy('debug', this._namespace, args);
-    };
-    DiagComponentLogger.prototype.error = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
+    }
+    error(...args) {
         return logProxy('error', this._namespace, args);
-    };
-    DiagComponentLogger.prototype.info = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
+    }
+    info(...args) {
         return logProxy('info', this._namespace, args);
-    };
-    DiagComponentLogger.prototype.warn = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
+    }
+    warn(...args) {
         return logProxy('warn', this._namespace, args);
-    };
-    DiagComponentLogger.prototype.verbose = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
+    }
+    verbose(...args) {
         return logProxy('verbose', this._namespace, args);
-    };
-    return DiagComponentLogger;
-}());
-export { DiagComponentLogger };
+    }
+}
 function logProxy(funcName, namespace, args) {
-    var logger = getGlobal('diag');
+    const logger = getGlobal('diag');
     // shortcut if logger not set
     if (!logger) {
         return;
     }
     args.unshift(namespace);
-    return logger[funcName].apply(logger, __spreadArray([], __read(args), false));
+    return logger[funcName](...args);
 }
 //# sourceMappingURL=ComponentLogger.js.map

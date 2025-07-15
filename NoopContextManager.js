@@ -13,55 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 import { ROOT_CONTEXT } from './context';
-var NoopContextManager = /** @class */ (function () {
-    function NoopContextManager() {
-    }
-    NoopContextManager.prototype.active = function () {
+export class NoopContextManager {
+    active() {
         return ROOT_CONTEXT;
-    };
-    NoopContextManager.prototype.with = function (_context, fn, thisArg) {
-        var args = [];
-        for (var _i = 3; _i < arguments.length; _i++) {
-            args[_i - 3] = arguments[_i];
-        }
-        return fn.call.apply(fn, __spreadArray([thisArg], __read(args), false));
-    };
-    NoopContextManager.prototype.bind = function (_context, target) {
+    }
+    with(_context, fn, thisArg, ...args) {
+        return fn.call(thisArg, ...args);
+    }
+    bind(_context, target) {
         return target;
-    };
-    NoopContextManager.prototype.enable = function () {
+    }
+    enable() {
         return this;
-    };
-    NoopContextManager.prototype.disable = function () {
+    }
+    disable() {
         return this;
-    };
-    return NoopContextManager;
-}());
-export { NoopContextManager };
+    }
+}
 //# sourceMappingURL=NoopContextManager.js.map

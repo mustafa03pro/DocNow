@@ -23,30 +23,29 @@ export function createContextKey(description) {
     // Therefore, we use Symbol.for which returns the same key for the same input.
     return Symbol.for(description);
 }
-var BaseContext = /** @class */ (function () {
+class BaseContext {
     /**
      * Construct a new context which inherits values from an optional parent context.
      *
      * @param parentContext a context from which to inherit values
      */
-    function BaseContext(parentContext) {
+    constructor(parentContext) {
         // for minification
-        var self = this;
+        const self = this;
         self._currentContext = parentContext ? new Map(parentContext) : new Map();
-        self.getValue = function (key) { return self._currentContext.get(key); };
-        self.setValue = function (key, value) {
-            var context = new BaseContext(self._currentContext);
+        self.getValue = (key) => self._currentContext.get(key);
+        self.setValue = (key, value) => {
+            const context = new BaseContext(self._currentContext);
             context._currentContext.set(key, value);
             return context;
         };
-        self.deleteValue = function (key) {
-            var context = new BaseContext(self._currentContext);
+        self.deleteValue = (key) => {
+            const context = new BaseContext(self._currentContext);
             context._currentContext.delete(key);
             return context;
         };
     }
-    return BaseContext;
-}());
+}
 /** The root context is used as the default parent context when there is no active context */
-export var ROOT_CONTEXT = new BaseContext();
+export const ROOT_CONTEXT = new BaseContext();
 //# sourceMappingURL=context.js.map

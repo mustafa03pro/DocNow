@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var consoleMap = [
+const consoleMap = [
     { n: 'error', c: 'error' },
     { n: 'warn', c: 'warn' },
     { n: 'info', c: 'info' },
@@ -25,18 +25,14 @@ var consoleMap = [
  * If you want to limit the amount of logging to a specific level or lower use the
  * {@link createLogLevelDiagLogger}
  */
-var DiagConsoleLogger = /** @class */ (function () {
-    function DiagConsoleLogger() {
+export class DiagConsoleLogger {
+    constructor() {
         function _consoleFunc(funcName) {
-            return function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
+            return function (...args) {
                 if (console) {
                     // Some environments only expose the console when the F12 developer console is open
                     // eslint-disable-next-line no-console
-                    var theFunc = console[funcName];
+                    let theFunc = console[funcName];
                     if (typeof theFunc !== 'function') {
                         // Not all environments support all functions
                         // eslint-disable-next-line no-console
@@ -49,11 +45,9 @@ var DiagConsoleLogger = /** @class */ (function () {
                 }
             };
         }
-        for (var i = 0; i < consoleMap.length; i++) {
+        for (let i = 0; i < consoleMap.length; i++) {
             this[consoleMap[i].n] = _consoleFunc(consoleMap[i].c);
         }
     }
-    return DiagConsoleLogger;
-}());
-export { DiagConsoleLogger };
+}
 //# sourceMappingURL=consoleLogger.js.map

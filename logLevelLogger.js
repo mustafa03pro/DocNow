@@ -24,7 +24,7 @@ export function createLogLevelDiagLogger(maxLevel, logger) {
     // In case the logger is null or undefined
     logger = logger || {};
     function _filterFunc(funcName, theLevel) {
-        var theFunc = logger[funcName];
+        const theFunc = logger[funcName];
         if (typeof theFunc === 'function' && maxLevel >= theLevel) {
             return theFunc.bind(logger);
         }

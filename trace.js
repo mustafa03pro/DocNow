@@ -18,13 +18,13 @@ import { ProxyTracerProvider } from '../trace/ProxyTracerProvider';
 import { isSpanContextValid, wrapSpanContext, } from '../trace/spancontext-utils';
 import { deleteSpan, getActiveSpan, getSpan, getSpanContext, setSpan, setSpanContext, } from '../trace/context-utils';
 import { DiagAPI } from './diag';
-var API_NAME = 'trace';
+const API_NAME = 'trace';
 /**
  * Singleton object which represents the entry point to the OpenTelemetry Tracing API
  */
-var TraceAPI = /** @class */ (function () {
+export class TraceAPI {
     /** Empty private constructor prevents end users from constructing a new instance of the API */
-    function TraceAPI() {
+    constructor() {
         this._proxyTracerProvider = new ProxyTracerProvider();
         this.wrapSpanContext = wrapSpanContext;
         this.isSpanContextValid = isSpanContextValid;
@@ -36,42 +36,40 @@ var TraceAPI = /** @class */ (function () {
         this.setSpanContext = setSpanContext;
     }
     /** Get the singleton instance of the Trace API */
-    TraceAPI.getInstance = function () {
+    static getInstance() {
         if (!this._instance) {
             this._instance = new TraceAPI();
         }
         return this._instance;
-    };
+    }
     /**
      * Set the current global tracer.
      *
      * @returns true if the tracer provider was successfully registered, else false
      */
-    TraceAPI.prototype.setGlobalTracerProvider = function (provider) {
-        var success = registerGlobal(API_NAME, this._proxyTracerProvider, DiagAPI.instance());
+    setGlobalTracerProvider(provider) {
+        const success = registerGlobal(API_NAME, this._proxyTracerProvider, DiagAPI.instance());
         if (success) {
             this._proxyTracerProvider.setDelegate(provider);
         }
         return success;
-    };
+    }
     /**
      * Returns the global tracer provider.
      */
-    TraceAPI.prototype.getTracerProvider = function () {
+    getTracerProvider() {
         return getGlobal(API_NAME) || this._proxyTracerProvider;
-    };
+    }
     /**
      * Returns a tracer from the global tracer provider.
      */
-    TraceAPI.prototype.getTracer = function (name, version) {
+    getTracer(name, version) {
         return this.getTracerProvider().getTracer(name, version);
-    };
+    }
     /** Remove the global tracer provider */
-    TraceAPI.prototype.disable = function () {
+    disable() {
         unregisterGlobal(API_NAME, DiagAPI.instance());
         this._proxyTracerProvider = new ProxyTracerProvider();
-    };
-    return TraceAPI;
-}());
-export { TraceAPI };
+    }
+}
 //# sourceMappingURL=trace.js.map

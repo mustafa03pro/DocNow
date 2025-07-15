@@ -19,14 +19,14 @@ import { defaultTextMapGetter, defaultTextMapSetter, } from '../propagation/Text
 import { getBaggage, getActiveBaggage, setBaggage, deleteBaggage, } from '../baggage/context-helpers';
 import { createBaggage } from '../baggage/utils';
 import { DiagAPI } from './diag';
-var API_NAME = 'propagation';
-var NOOP_TEXT_MAP_PROPAGATOR = new NoopTextMapPropagator();
+const API_NAME = 'propagation';
+const NOOP_TEXT_MAP_PROPAGATOR = new NoopTextMapPropagator();
 /**
  * Singleton object which represents the entry point to the OpenTelemetry Propagation API
  */
-var PropagationAPI = /** @class */ (function () {
+export class PropagationAPI {
     /** Empty private constructor prevents end users from constructing a new instance of the API */
-    function PropagationAPI() {
+    constructor() {
         this.createBaggage = createBaggage;
         this.getBaggage = getBaggage;
         this.getActiveBaggage = getActiveBaggage;
@@ -34,20 +34,20 @@ var PropagationAPI = /** @class */ (function () {
         this.deleteBaggage = deleteBaggage;
     }
     /** Get the singleton instance of the Propagator API */
-    PropagationAPI.getInstance = function () {
+    static getInstance() {
         if (!this._instance) {
             this._instance = new PropagationAPI();
         }
         return this._instance;
-    };
+    }
     /**
      * Set the current propagator.
      *
      * @returns true if the propagator was successfully registered, else false
      */
-    PropagationAPI.prototype.setGlobalPropagator = function (propagator) {
+    setGlobalPropagator(propagator) {
         return registerGlobal(API_NAME, propagator, DiagAPI.instance());
-    };
+    }
     /**
      * Inject context into a carrier to be propagated inter-process
      *
@@ -55,10 +55,9 @@ var PropagationAPI = /** @class */ (function () {
      * @param carrier carrier to inject context into
      * @param setter Function used to set values on the carrier
      */
-    PropagationAPI.prototype.inject = function (context, carrier, setter) {
-        if (setter === void 0) { setter = defaultTextMapSetter; }
+    inject(context, carrier, setter = defaultTextMapSetter) {
         return this._getGlobalPropagator().inject(context, carrier, setter);
-    };
+    }
     /**
      * Extract context from a carrier
      *
@@ -66,24 +65,21 @@ var PropagationAPI = /** @class */ (function () {
      * @param carrier Carrier to extract context from
      * @param getter Function used to extract keys from a carrier
      */
-    PropagationAPI.prototype.extract = function (context, carrier, getter) {
-        if (getter === void 0) { getter = defaultTextMapGetter; }
+    extract(context, carrier, getter = defaultTextMapGetter) {
         return this._getGlobalPropagator().extract(context, carrier, getter);
-    };
+    }
     /**
      * Return a list of all fields which may be used by the propagator.
      */
-    PropagationAPI.prototype.fields = function () {
+    fields() {
         return this._getGlobalPropagator().fields();
-    };
+    }
     /** Remove the global propagator */
-    PropagationAPI.prototype.disable = function () {
+    disable() {
         unregisterGlobal(API_NAME, DiagAPI.instance());
-    };
-    PropagationAPI.prototype._getGlobalPropagator = function () {
+    }
+    _getGlobalPropagator() {
         return getGlobal(API_NAME) || NOOP_TEXT_MAP_PROPAGATOR;
-    };
-    return PropagationAPI;
-}());
-export { PropagationAPI };
+    }
+}
 //# sourceMappingURL=propagation.js.map

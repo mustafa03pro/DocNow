@@ -18,7 +18,7 @@ import { createContextKey } from '../context/context';
 /**
  * Baggage key
  */
-var BAGGAGE_KEY = createContextKey('OpenTelemetry Baggage Key');
+const BAGGAGE_KEY = createContextKey('OpenTelemetry Baggage Key');
 /**
  * Retrieve the current baggage from the given context
  *

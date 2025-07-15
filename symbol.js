@@ -16,5 +16,5 @@
 /**
  * Symbol used to make BaggageEntryMetadata an opaque type
  */
-export var baggageEntryMetadataSymbol = Symbol('BaggageEntryMetadata');
+export const baggageEntryMetadataSymbol = Symbol('BaggageEntryMetadata');
 //# sourceMappingURL=symbol.js.map
